@@ -1,0 +1,125 @@
+Microsoft Windows [Version 10.0.26200.7462]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\dahab>cd..
+
+C:\Users>cd..
+
+C:\>cd C:\laragon\bin\mysql\mysql-8.0.30-winx64\bin
+
+C:\laragon\bin\mysql\mysql-8.0.30-winx64\bin>mysql -u root
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 18
+Server version: 8.0.30 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database db_universitas;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use db_universitas;
+Database changed
+mysql> create table mahasiswa(
+    -> id int primary key auto_increment,
+    -> nama varchar(50),
+    -> alamat text,
+    -> thn_lahir int,
+    -> thn_masuk int,
+    -> jurusan varchar(50));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into mahasiswa(nama, alamat, thn_lahir, thn_masuk, jurusan) values
+    -> ('caca','Bogor','2000','2015','Sastra Inggris'),
+    -> ('cici','Jakarta','2002','2017','Sastra Inggris'),
+    -> ('cece','Bogor','2005','2015','Informatika'),
+    -> ('cucu','Depok','2000','2018','Ked.Gigi'),
+    -> ('coco','Tanggerang','2001','2015','Sistem Informasi');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from mahasiswa;
++----+------+------------+-----------+-----------+------------------+
+| id | nama | alamat     | thn_lahir | thn_masuk | jurusan          |
++----+------+------------+-----------+-----------+------------------+
+|  1 | caca | Bogor      |      2000 |      2015 | Sastra Inggris   |
+|  2 | cici | Jakarta    |      2002 |      2017 | Sastra Inggris   |
+|  3 | cece | Bogor      |      2005 |      2015 | Informatika      |
+|  4 | cucu | Depok      |      2000 |      2018 | Ked.Gigi         |
+|  5 | coco | Tanggerang |      2001 |      2015 | Sistem Informasi |
++----+------+------------+-----------+-----------+------------------+
+5 rows in set (0.01 sec)
+
+mysql> update mahasiswa set alamat='solo' where id='4';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> delete from mahasiswa where id='2';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select nama, thn_lahir, thn_masuk from mahasiswa;
++------+-----------+-----------+
+| nama | thn_lahir | thn_masuk |
++------+-----------+-----------+
+| caca |      2000 |      2015 |
+| cece |      2005 |      2015 |
+| cucu |      2000 |      2018 |
+| coco |      2001 |      2015 |
++------+-----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select distinct jurusan from mahasiswa;
++------------------+
+| jurusan          |
++------------------+
+| Sastra Inggris   |
+| Informatika      |
+| Ked.Gigi         |
+| Sistem Informasi |
++------------------+
+4 rows in set (0.01 sec)
+
+mysql> select *, thn_masuk - thn_lahir as usia_saat_masuk from mahasiswa;
++----+------+------------+-----------+-----------+------------------+-----------------+
+| id | nama | alamat     | thn_lahir | thn_masuk | jurusan          | usia_saat_masuk |
++----+------+------------+-----------+-----------+------------------+-----------------+
+|  1 | caca | Bogor      |      2000 |      2015 | Sastra Inggris   |              15 |
+|  3 | cece | Bogor      |      2005 |      2015 | Informatika      |              10 |
+|  4 | cucu | solo       |      2000 |      2018 | Ked.Gigi         |              18 |
+|  5 | coco | Tanggerang |      2001 |      2015 | Sistem Informasi |              14 |
++----+------+------------+-----------+-----------+------------------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> select *, thn_masuk - thn_lahir as usia_saat_masuk from mahasiswa order by usia_saat_masuk desc;
++----+------+------------+-----------+-----------+------------------+-----------------+
+| id | nama | alamat     | thn_lahir | thn_masuk | jurusan          | usia_saat_masuk |
++----+------+------------+-----------+-----------+------------------+-----------------+
+|  4 | cucu | solo       |      2000 |      2018 | Ked.Gigi         |              18 |
+|  1 | caca | Bogor      |      2000 |      2015 | Sastra Inggris   |              15 |
+|  5 | coco | Tanggerang |      2001 |      2015 | Sistem Informasi |              14 |
+|  3 | cece | Bogor      |      2005 |      2015 | Informatika      |              10 |
++----+------+------------+-----------+-----------+------------------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> select nama, jurusan, thn_masuk - thn_lahir as usia_saat_masuk from mahasiswa where (thn_masuk - thn_lahir) <=15;
++------+------------------+-----------------+
+| nama | jurusan          | usia_saat_masuk |
++------+------------------+-----------------+
+| caca | Sastra Inggris   |              15 |
+| cece | Informatika      |              10 |
+| coco | Sistem Informasi |              14 |
++------+------------------+-----------------+
+3 rows in set (0.01 sec)
+
+mysql> truncate table mahasiswa;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from mahasiswa;
+Empty set (0.00 sec)
+
+mysql>
